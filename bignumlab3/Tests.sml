@@ -11,7 +11,7 @@ struct
 
   val testsSub : (IntInf.int * IntInf.int) list = [
     (3,2),
-    (3,4),
+    (6,4),
     (1023, 1022),
     (23423,543)
   ]

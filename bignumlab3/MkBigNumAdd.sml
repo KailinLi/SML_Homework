@@ -22,9 +22,9 @@ struct
                                             | ((ZERO, ONE) | (ONE, ZERO)) => ONE) (length max)
 
       fun directAND max min = tabulate (fn index => case (rule max index, rule min index) of
-         (ZERO, ZERO) => STOP
-       | ((ZERO, ONE) | (ONE, ZERO)) => PROP
-       | (ONE, ONE) => GEN) (length max)
+                                                     (ZERO, ZERO) => STOP
+                                                   | ((ZERO, ONE) | (ONE, ZERO)) => PROP
+                                                   | (ONE, ONE) => GEN) (length max)
       fun copy (a, PROP) = a
         | copy (_, b)    = b
       val afterScan = scani copy STOP (directAND max min)
