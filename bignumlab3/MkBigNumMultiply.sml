@@ -19,8 +19,8 @@ struct
      | (lengthX, lengthY) => if (lengthX > lengthY) then y ** x else
       let
         val mid = lengthX div 2
-        val (p, q) = (take (x, mid), drop (x, mid))
-        val (r, s) = (take (y, mid), drop (y, mid))
+        val (q, p) = (take (x, mid), drop (x, mid))
+        val (s, r) = (take (y, mid), drop (y, mid))
         val pr = p ** r
         val qs = q ** s
         val directAdd = (p ++ q) ** (r ++ s)

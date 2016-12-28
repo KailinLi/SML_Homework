@@ -5,6 +5,7 @@ struct
   open Seq
 
   fun parenDist (parens : paren seq) : int option =
+  if length parens = 0 then NONE else
   let
     fun count ((~1, _) | (0, CPAREN)) = ~1
       | count (n, CPAREN) = n - 1

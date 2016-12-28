@@ -17,7 +17,7 @@ struct
   ]
 
   val testsMul : (IntInf.int * IntInf.int) list = [
-    (4000,3334),
+    (3,4),
     (3,2),
     (123, 937),
     (1,1000),

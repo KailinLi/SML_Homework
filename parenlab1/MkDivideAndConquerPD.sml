@@ -7,6 +7,7 @@ struct
 
 
   fun parenDist (parens : paren seq) : int option =
+  if length parens = 0 then NONE else
     let
       fun max (a, b) = if a > b then a else b
       fun max3 (a, b, c) = if max (a, b) > c then max (a, b) else c
