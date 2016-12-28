@@ -11,6 +11,29 @@ struct
   datatype carry = GEN | PROP | STOP
 
   fun x ++ y = 
+    (*let
+      fun rule array index = if index < (length array) then nth array index else ZERO
+      val max = if (length x <= length y) then y else x
+      val min = if (length x <= length y) then x else y
+      val directADD = tabulate (fn index => case (rule max index, rule min index) of
+         (ZERO, ZERO) => STOP
+       | ((ZERO, ONE) | (ONE, ZERO)) => PROP
+       | (ONE, ONE) => GEN) (length max)
+      val draft = append (directADD, singleton STOP)
+      val turn = map (fn x => (1, x)) draft
+      val shit = (singleton 0)
+      fun change ((0, _), (_, STOP)) = (0, STOP)
+        | change ((0, _), (_, GEN)) = (1, STOP)
+        | change ((0, _), (_, PROP)) = (0, PROP)
+        | change ((1, _), (_, STOP)) = (0, PROP)
+        | change ((1, _), (_, GEN)) = (1, PROP)
+        | change ((1, _), (_, PROP)) = (1, STOP)
+      (*val answer = scani change (0, GEN) turn*)
+      (*val final = if ((nth answer ((length answer) - 1)) = (0, STOP)) then take (answer, ((length answer) - 1)) else answer*)
+    in
+      map (fn (_, result) => if result = PROP then ONE else ZERO) answer
+    end*)
+  
     let
 
       fun rule array index = if index < (length array) then nth array index else ZERO

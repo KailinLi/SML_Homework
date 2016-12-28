@@ -1,9 +1,9 @@
 structure Tests =
 struct
   val testsAdd : (IntInf.int * IntInf.int) list = [
-    (2,2),
-    (4000,3334),
-    (9,1),
+    (5,2),
+    (4,3),
+    (7,1),
     (123, 937),
     (23413, 34324),
     (21,3243)
