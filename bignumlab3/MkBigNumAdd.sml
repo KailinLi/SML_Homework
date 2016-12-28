@@ -11,30 +11,7 @@ struct
   datatype carry = GEN | PROP | STOP
 
   fun x ++ y = 
-    (*let
-      fun rule array index = if index < (length array) then nth array index else ZERO
-      val max = if (length x <= length y) then y else x
-      val min = if (length x <= length y) then x else y
-      val directADD = tabulate (fn index => case (rule max index, rule min index) of
-         (ZERO, ZERO) => STOP
-       | ((ZERO, ONE) | (ONE, ZERO)) => PROP
-       | (ONE, ONE) => GEN) (length max)
-      val draft = append (directADD, singleton STOP)
-      val turn = map (fn x => (1, x)) draft
-      val shit = (singleton 0)
-      fun change ((0, _), (_, STOP)) = (0, STOP)
-        | change ((0, _), (_, GEN)) = (1, STOP)
-        | change ((0, _), (_, PROP)) = (0, PROP)
-        | change ((1, _), (_, STOP)) = (0, PROP)
-        | change ((1, _), (_, GEN)) = (1, PROP)
-        | change ((1, _), (_, PROP)) = (1, STOP)
-      (*val answer = scani change (0, GEN) turn*)
-      (*val final = if ((nth answer ((length answer) - 1)) = (0, STOP)) then take (answer, ((length answer) - 1)) else answer*)
-    in
-      map (fn (_, result) => if result = PROP then ONE else ZERO) answer
-    end*)
-  
-    let
+   let
 
       fun rule array index = if index < (length array) then nth array index else ZERO
       val max = if (length x <= length y) then y else x
@@ -43,11 +20,23 @@ struct
       fun directXOR max min = tabulate (fn index => case (rule max index, rule min index) of
                                               ((ZERO, ZERO) | (ONE, ONE)) => ZERO
                                             | ((ZERO, ONE) | (ONE, ZERO)) => ONE) (length max)
-      fun directAND max min = tabulate (fn index => case (rule max index, rule min index) of
+      (*fun directAND max min = tabulate (fn index => case (rule max index, rule min index) of
                                               (ONE, ONE) => ONE
-                                             | _ => ZERO) (length max)
+                                             | _ => ZERO) (length max)*)
 
-      fun judge ((false, _)|(_, ONE)) = false
+      fun directAND max min = tabulate (fn index => case (rule max index, rule min index) of
+         (ZERO, ZERO) => STOP
+       | ((ZERO, ONE) | (ONE, ZERO)) => PROP
+       | (ONE, ONE) => GEN) (length max)
+      fun copy (a, PROP) = a
+        | copy (_, b)    = b
+      val shit = scani copy STOP (directAND max min)
+      val fuck = tabulate (fn index => if nth shit index = GEN then ONE else ZERO) (length shit)
+      val shit1 = append (singleton ZERO, fuck)
+      val answer = directXOR shit1 (directXOR max min)
+
+
+      (*fun judge ((false, _)|(_, ONE)) = false
         | judge (_, ZERO) = true
       fun check number = iter judge true number
 
@@ -62,8 +51,8 @@ struct
         in
           if check andnumber then xornumber
           else caculate (appendnumber andnumber, xornumber)
-        end 
-      val answer = caculate (max, min)
+        end
+      val answer = caculate (max, min)*)
     in
       answer
     end
