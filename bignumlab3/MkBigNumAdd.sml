@@ -43,7 +43,7 @@ struct
       val answer = caculate (max, min)
     in
       answer
-    end;
+    end
 
   val add = op++
 end
