@@ -9,7 +9,7 @@ struct
     fun count ((~1, _) | (0, CPAREN)) = ~1
       | count (n, CPAREN) = n - 1
       | count (n, OPAREN) = n + 1
-    fun judgement inputSeq = if iter count 0 inputSeq = ~1 then false else true
+    fun judgement inputSeq = if iter count 0 inputSeq = ~1 then false else true (*W = O(n), S = O(log^2(n))*)
     fun max (a, b) = if a > b then a else b
     fun loop (index: int) = 
       if nth parens index = OPAREN
@@ -22,7 +22,7 @@ struct
           in
             iter max 0 (tabulate brute ((length parens) - index - 1))
           end
-        else 0
+        else 0(*两层循环，W = O(n^2) S = O(log^2(n))*)
   in
     if judgement parens = false then NONE
     else

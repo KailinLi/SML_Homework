@@ -28,7 +28,7 @@ struct
                [] => []
              | x::tl => append (reverse tl, x::[])
           fun prepare rightArray = if (leftOPA = []) then rightArray else (reverse rightArray)
-          val afterMatch = match (leftOPA, (prepare rightCPA), 0)
+          val afterMatch = match (leftOPA, (prepare rightCPA), 0) (*貌似复杂,实际每次的都可以conquer很多*)
         in
           (add ((#1 afterMatch), rightOPA), add (leftCPA, (#2 afterMatch)), max3 (leftMax, rightMax, (#3 afterMatch)))
         end
