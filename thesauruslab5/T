@@ -1,0 +1,15 @@
+CM.make "sources.cm";
+print "testNumEdges ()\n";
+Tester.testNumEdges ();
+print "testNumVertices ()\n";
+Tester.testNumVertices ();
+print "testOutNeighbors ()\n";
+Tester.testOutNeighbors ();
+print "testReport ()\n";
+Tester.testReport ();
+print "testNumWords ()\n";
+Tester.testNumWords ();
+print "testSynonyms ()\n";
+Tester.testSynonyms ();
+print "testQuery ()\n";
+Tester.testQuery ();

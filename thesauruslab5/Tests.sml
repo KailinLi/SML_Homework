@@ -29,6 +29,6 @@ struct
      (testfile, "GOOD")]
 
   val testsQuery =
-    [(testfile2, ("HANDSOME", "YOLO")), (testfile, ("GOOD", "BAD"))]
+    [(testfile2, ("HANDSOME", "YOLO")), (testfile, ("CLEAR", "VAGUE")), (testfile, ("GOOD", "BAD"))]
 
 end
