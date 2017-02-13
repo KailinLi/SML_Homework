@@ -11,8 +11,6 @@ struct
   type token = string
   type kgram = token seq
 
-  (* Remove this line when you're done. *)
-  exception NotYetImplemented
 
   (* You must define the abstract kgramstats type *)
   type kgramstats = unit
