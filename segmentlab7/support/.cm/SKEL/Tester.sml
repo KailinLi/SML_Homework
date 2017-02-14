@@ -1,0 +1,2 @@
+Skeleton 5
+d2f±ä¢ArraySequence"ae"MkTester"i1aä¢OurMST1"gp1c"MST"jh8egp1d"StudentTestSuite"ad"R"çğ±ä¢Random210"eçğÿCf5Cd"Int"d"List"d"Result"d"Tester"d"Tests"Cd"ImageIO"d"ForestImage"d"Checker"d"ImageGraph"d"Logger"Nad"MSTTest"è0ad"StuBoruvkaMST"jè²áä¢Seq"ÿ%áä¢Rand"ÿgp1e"MkBoruvkaMST"ad"StuBoruvkaSegmenter"êÿƒ-çğ±å¢MkBoruvkaSegmenter"ad"OurBoruvkaMSTVer1"gp1ÿ#Caä¢EdgeElt"jh3aä¢EltA"çğ±ä¢IntElt"áä¢EltB"ÿ…:ad"EltC"ÿ…:gp1e"MkTripleElt"aä¢EdgeSeqElt"jh2ÿƒ/ad"Elt"gp1ÿ…%gp1e"MkSeqElt"ad"MSTInElt"jh2aÿ…3çğ±ÿ†.ÿ†gp1e"MkPairElt"ad"MSTOutElt"ÿ‡/ad"Segmenter"ÿ„-Nÿƒ

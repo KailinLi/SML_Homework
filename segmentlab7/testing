@@ -1,5 +1,6 @@
 CM.make "sources.cm";
 CM.make "lib/210lib.cm";
-structure OurMST = MkOurMST(structure Seq = ArraySequence
-                            structure Rand = Random210)
-structure Tester = MkTester(structure OurMST = OurMST)
+structure OurMST1 = MkOurMSTC(structure Seq = ArraySequence
+                            structure Rand = Random210)                         
+structure Tester = MkTester(structure OurMST1 = OurMST1
+			    )

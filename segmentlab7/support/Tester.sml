@@ -1,5 +1,6 @@
-functor MkTester (structure OurMST : MST
-                  where Seq = ArraySequence) :
+functor MkTester (structure OurMST1 : MST
+                  where Seq = ArraySequence
+                  ) :
 sig
   val testMST : unit -> unit
   val testSegmenter : (string * string * int) -> unit
@@ -42,7 +43,7 @@ struct
   structure StuBoruvkaMST = MkBoruvkaMST (structure Seq = ArraySequence structure Rand = Random210)
   structure StuBoruvkaSegmenter = MkBoruvkaSegmenter (structure Seq = ArraySequence structure Rand = Random210)
 
-  structure OurBoruvkaMST = OurMST
+  structure OurBoruvkaMSTVer1 = OurMST1
 
   structure EdgeElt = MkTripleElt(structure EltA = IntElt
                                   structure EltB = IntElt
@@ -54,10 +55,10 @@ struct
   structure MSTOutElt = EdgeSeqElt
 
 
-  fun verify (_, Result.Exn _) = false
-    | verify ((E, n), Result.Value out) =
+  fun verify1 (_, Result.Exn _) = false
+    | verify1 ((E, n), Result.Value out) =
         let
-          val minWt = reduce op+ 0 (map #3 (OurBoruvkaMST.MST (E, n)))
+          val minWt = reduce op+ 0 (map #3 (OurBoruvkaMSTVer1.MST (E, n)))
           val stuWt = reduce op+ 0 (map #3 out)
         in
           minWt = stuWt andalso
@@ -65,7 +66,9 @@ struct
           MSTTest.isTree (out, n)
         end
 
-  val checker = Checker.fromVerifier (StuBoruvkaMST.MST, verify)
+
+
+  val checker1 = Checker.fromVerifier (StuBoruvkaMST.MST, verify1)
   val logger = Logger.create (MSTInElt.toString, MSTOutElt.toString)
 
   fun fixCase (L, n) =
@@ -96,11 +99,11 @@ struct
 
   fun testMST () =
     let
-      val tests = List.map (fixCase o (fn (E, n) => (% E, n))) Tests.testsMST
+      val tests = List.filter (fn (_,n)=> n <> 0) (List.map (fixCase o (fn (E, n) => (% E, n))) Tests.testsMST)      
+      val _ = Tester.testGroup checker1 logger tests 
     in
-      Tester.testGroup checker logger tests
+      ()
     end
-
 
 
   structure Segmenter = MkBoruvkaSegmenter(structure Seq = ArraySequence

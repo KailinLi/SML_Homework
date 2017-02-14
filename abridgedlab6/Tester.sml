@@ -49,7 +49,7 @@ struct
       val logger = Logger.create (EdgeSeqElt.toString o #1, EdgeSeqElt.toString)
       val logger2 = Logger.create (EdgeSeqElt.toString, EdgeSeqElt.toString)
       val _ = Tester.testGroup checker logger (toList pack)
-      val _ = print "\n*** *** Retest with Mr.Cui's Solution *** ***\n"
+      (*val _ = print "\n*** *** Retest with Mr.Cui's Solution *** ***\n"*)
       val _ = Tester.testGroup checker2 logger2 (Tests.testBridge)
       (*val _ = map (print o (fn x => x^"\n") o GraphSeqElt.toString o Bridges.makeGraph) tests*)
     in
@@ -75,7 +75,7 @@ struct
       val logger2 = Logger.create(AStarElt.toString, PathElt.toString)
 
       val _ = Tester.testGroup checker logger (toList pack)
-      val _ = print "\n*** *** Retest with Mr.Cui's Solution *** ***\n"
+      (*val _ = print "\n*** *** Retest with Mr.Cui's Solution *** ***\n"*)
       val _ = Tester.testGroup checker2 logger2 (Tests.testAStar)
     in
       ()
