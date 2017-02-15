@@ -42,7 +42,7 @@ end*)
 
   fun findBridges (G : ugraph) : edges =
     let
-      fun DFS p ((B, X, c, m), v) = 
+      fun DFS p ((B, X, c, m), v) =
         if (isSome(STSeq.nth X v)) then (B, X, c, Int.min(m, valOf(STSeq.nth X v)))
           else
             let

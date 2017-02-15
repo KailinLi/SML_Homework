@@ -18,24 +18,34 @@ struct
   exception NYI
 
   fun first (T : 'a table) : (key * 'a) option =
-    raise NYI
+    case Tree.expose T of
+       NONE => NONE
+     | SOME {key, value, left, right} => 
+      case Tree.expose left of
+         NONE => SOME (key, value)
+       | _ => first left
 
-  fun last (T : 'a table) : (key * 'a) option =
-    raise NYI
+  fun last (T : 'a table) : (key * 'a) option = 
+    case Tree.expose T of
+       NONE => NONE
+     | SOME {key, value, left, right} => 
+      case Tree.expose right of
+         NONE => SOME (key, value)
+       | _ => last right
 
   fun previous (T : 'a table) (k : key) : (key * 'a) option =
-    raise NYI
+    last (#1 (Tree.splitAt (T, k)))
 
   fun next (T : 'a table) (k : key) : (key * 'a) option =
-    raise NYI
+    first (#3 (Tree.splitAt (T, k)))
 
   fun join (L : 'a table, R : 'a table) : 'a table =
-    raise NYI
+    Tree.join (L, R)
 
   fun split (T : 'a table, k : key) : 'a table * 'a option * 'a table =
-    raise NYI
+    Tree.splitAt (T, k)
 
   fun getRange (T : 'a table) (low : key, high : key) : 'a table =
-    raise NYI
+    #1 (Tree.splitAt (#3 (Tree.splitAt (T, low)), high))
 
 end
