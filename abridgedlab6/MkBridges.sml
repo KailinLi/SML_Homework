@@ -21,44 +21,66 @@ struct
       Seq.map (fn (_, vertexs) => vertexs) collectVertex
     end
 
+(*def bridge_dfs(G,u,v,cnt,low,pre,bridges):
+    cnt    += 1
+    pre[v]  = cnt
+    low[v]  = pre[v]
 
-    (*let
-        fun DFS p ((B,X,c,m),v) =
-        if (isSome(STSeq.nth X v)) then (B,X,c,Int.min(m,valOf (STSeq.nth X v)))
-        else let
-            val updX = STSeq.update (v,SOME c) X
-            val toVisit = filter (fn v=> v<> p) (nth G v)
-            val (fixB,fixX,fixc,fixm) = iter (DFS v) (B,updX,c+1,(length G)) toVisit
-            val finalB = if p<>v andalso fixm >= c then (STSeq.update (v,singleton((p,v))) fixB) else fixB
-            in (finalB,fixX,fixc,Int.min(m,fixm)) end
-       val Vert = tabulate (fn i=>i) (length G)
-       val X = STSeq.fromSeq (tabulate (fn _=>NONE) (length G))
-       val B = STSeq.fromSeq (tabulate (fn _=>empty()) (length G))
-       val res =  #1(iter (fn(S,v)=> DFS v (S,v)) (B,X,0,0) Vert)
-      in
-      flatten(STSeq.toSeq res)
-end*)
+    for w in nx.neighbors(G,v):
+        if (pre[w] == -1):
+            bridge_dfs(G,v,w,cnt,low,pre,bridges)
+
+            low[v] = min(low[v], low[w])
+            if (low[w] == pre[w]):
+                bridges.append((v,w))
+
+        elif (w != u):
+            low[v] = min(low[v], pre[w])
+
+def get_bridges(G):
+    bridges = []
+    cnt     = 0
+    low     = {n:-1 for n in G.nodes()}
+    pre     = low.copy()
+
+    for n in G.nodes():
+         bridge_dfs(G, n, n, cnt, low, pre, bridges)
+
+    return bridges # <- List of (node-node) tuples for all bridges in G*)
 
 
   fun findBridges (G : ugraph) : edges =
     let
-      fun DFS p ((B, X, c, m), v) =
-        if (isSome(STSeq.nth X v)) then (B, X, c, Int.min(m, valOf(STSeq.nth X v)))
-          else
-            let
-              val updX = STSeq.update (v, SOME c) X
-              val toVisit = filter (fn v => v <> p) (nth G v)
-              val (fixB,fixX,fixc,fixm) = iter (DFS v) (B, updX, c + 1, (length G)) toVisit
-              val finalB = if p <> v andalso fixm >= c then (STSeq.update (v, singleton (p, v)) fixB) else fixB
+      fun DFS (u, v, cnt, low, pre, bridges) = 
+        let
+          val newCnt = cnt + 1
+          fun change (i, key) = if i = v then cnt else key
+          val newPre = mapIdx change pre 
+          val newLow = mapIdx change low
+          val neighbors = nth G v 
+          fun loop ((C, L, P, B), w) = 
+            if (nth P w = ~1) then let
+              val (nC, nL, nP, nB) = DFS (v, w, C, L, P, B)
+              val getL = mapIdx (fn (i, key) => if i = v then Int.min(nth nL v, nth nL w) else key) nL 
+              val getB = if (nth getL w = nth nP w) then append (nB, singleton(v, w)) else nB
             in
-              (finalB, fixX, fixc, Int.min(m, fixm))
+              (nC, getL, nP, getB)
             end
-          val Vert = tabulate (fn i => i) (length G)
-          val X = STSeq.fromSeq (tabulate (fn _ => NONE) (length G))
-          val B = STSeq.fromSeq (tabulate (fn _ => empty()) (length G))
-          val res = #1 (iter (fn (S, v) => DFS v (S, v)) (B, X, 0, 0) Vert)
+            else if (w <> u) then let
+              val getL = mapIdx (fn (i, key) => if i = v then Int.min(nth L v, nth P w) else key) L
+            in
+              (C, getL, P, B)
+            end
+            else (C, L, P, B)
+        in
+          iter loop (newCnt, newLow, newPre, bridges) (nth G v)
+        end
+      fun API ((c, l, p, b), n) = DFS (n, n, c, l, p, b)
+      val initL = tabulate (fn _ => ~1) (length G)
+      val initP = tabulate (fn _ => ~1) (length G)
+      val allNode = tabulate (fn i => i) (length G)
     in
-      flatten (STSeq.toSeq res)
+      #4 (iter API (0, initL, initP, empty()) allNode)
     end
 
 end

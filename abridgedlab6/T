@@ -1,3 +1,2 @@
 CM.make "sources.cm";
 Tester.testBridges ();
-Tester.testAStar ();
