@@ -54,20 +54,19 @@ def get_bridges(G):
       fun DFS (u, v, cnt, low, pre, bridges) = 
         let
           val newCnt = cnt + 1
-          fun change (i, key) = if i = v then cnt else key
-          val newPre = mapIdx change pre 
-          val newLow = mapIdx change low
+          val newPre = STSeq.update (v, cnt) pre
+          val newLow = STSeq.update (v, cnt) low
           val neighbors = nth G v 
           fun loop ((C, L, P, B), w) = 
-            if (nth P w = ~1) then let
+            if (STSeq.nth P w = ~1) then let
               val (nC, nL, nP, nB) = DFS (v, w, C, L, P, B)
-              val getL = mapIdx (fn (i, key) => if i = v then Int.min(nth nL v, nth nL w) else key) nL 
-              val getB = if (nth getL w = nth nP w) then append (nB, singleton(v, w)) else nB
+              val getL = STSeq.update (v, Int.min(STSeq.nth nL v, STSeq.nth nL w)) nL
+              val getB = if (STSeq.nth getL w = STSeq.nth nP w) then append (nB, singleton(v, w)) else nB
             in
               (nC, getL, nP, getB)
             end
             else if (w <> u) then let
-              val getL = mapIdx (fn (i, key) => if i = v then Int.min(nth L v, nth P w) else key) L
+              val getL = STSeq.update (v, Int.min(STSeq.nth L v, STSeq.nth P w)) L
             in
               (C, getL, P, B)
             end
@@ -76,8 +75,8 @@ def get_bridges(G):
           iter loop (newCnt, newLow, newPre, bridges) (nth G v)
         end
       fun API ((c, l, p, b), n) = DFS (n, n, c, l, p, b)
-      val initL = tabulate (fn _ => ~1) (length G)
-      val initP = tabulate (fn _ => ~1) (length G)
+      val initL = STSeq.fromSeq (tabulate (fn _ => ~1) (length G))
+      val initP = STSeq.fromSeq (tabulate (fn _ => ~1) (length G))
       val allNode = tabulate (fn i => i) (length G)
     in
       #4 (iter API (0, initL, initP, empty()) allNode)
