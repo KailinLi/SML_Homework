@@ -3,7 +3,7 @@
 ## unpack raw-file format from Standard ML into a JPEG output file
 
 import os, sys
-import Image
+from PIL import Image
 from struct import *
 
 fileName = sys.argv[1]
@@ -13,7 +13,7 @@ try:
     w,h = unpack("ii", header)
 
     data = sys.stdin.read(3*w*h)
-    im = Image.fromstring("RGB", (w, h), data, "raw", "RGB", 0, 1)
+    im = Image.frombytes("RGB", (w, h), data, "raw", "RGB", 0, 1)
     im.save(fileName, "PNG")
 except IOError, e:
     print >> sys.stderr, "%s: %s\n\nCannot open/write to %s" % (sys.argv[0], str(e), fileName)

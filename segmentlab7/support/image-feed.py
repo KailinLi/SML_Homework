@@ -3,7 +3,7 @@
 ## parse a graphic file (of most known formats) and feed into Standard ML
 
 import os, sys
-import Image
+from PIL import Image
 from struct import *
 
 fileName = sys.argv[1]
