@@ -14,7 +14,6 @@ struct
 
   (* Define this yourself *)
   type countTable = point table table
-  对于有序的每个x作为key，都有一个以
 
   fun makeCountTable (S : point seq) : countTable =
     let
