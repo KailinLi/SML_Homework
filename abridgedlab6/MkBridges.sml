@@ -7,11 +7,10 @@ struct
   type edge = vertex * vertex
   type edges = edge seq
 
-  (* Remove these two lines before submittting. *)
-  exception NotYetImplemented
 
   type ugraph = vertex seq seq
 
+(*用seq每一个序号对应起点序号*)
   fun makeGraph (E : edge seq) : ugraph =
     let
       val reverse = Seq.map (fn (a, b) => (b, a)) E 
@@ -21,34 +20,8 @@ struct
       Seq.map (fn (_, vertexs) => vertexs) collectVertex
     end
 
-(*def bridge_dfs(G,u,v,cnt,low,pre,bridges):
-    cnt    += 1
-    pre[v]  = cnt
-    low[v]  = pre[v]
 
-    for w in nx.neighbors(G,v):
-        if (pre[w] == -1):
-            bridge_dfs(G,v,w,cnt,low,pre,bridges)
-
-            low[v] = min(low[v], low[w])
-            if (low[w] == pre[w]):
-                bridges.append((v,w))
-
-        elif (w != u):
-            low[v] = min(low[v], pre[w])
-
-def get_bridges(G):
-    bridges = []
-    cnt     = 0
-    low     = {n:-1 for n in G.nodes()}
-    pre     = low.copy()
-
-    for n in G.nodes():
-         bridge_dfs(G, n, n, cnt, low, pre, bridges)
-
-    return bridges # <- List of (node-node) tuples for all bridges in G*)
-
-
+(*改编自Tarjan的一个python算法，纯粹自己写，考虑细节实在是太多了*)
   fun findBridges (G : ugraph) : edges =
     let
       fun DFS (u, v, cnt, low, pre, bridges) = 

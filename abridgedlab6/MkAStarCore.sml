@@ -10,10 +10,9 @@ struct
   type edge = vertex * vertex * weight
   type heuristic = vertex -> real
 
-  (* Uncomment this line once you're done *)
-  exception NotYetImplemented
 
   (* Define this type yourself *)
+  (*因为连通有向图，不一定每个点都有对应的儿子节点，所以采用table比较方便，时间复杂度也能控制*)
   type graph = weight Table.table Table.table
 
   fun makeGraph (E : edge Seq.seq) : graph =

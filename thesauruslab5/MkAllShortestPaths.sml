@@ -55,10 +55,13 @@ struct
             (outNeighbors G u))
             frontier
         ))
-        val newPath = Table.merge (fn (sqPar, _) => sqPar) (pathTable, visitingVertexs)
+        (*每一个key指向其之前的元素*)
+        val newPath = Table.merge (fn (sqPar, _) => sqPar)
+                           (pathTable, visitingVertexs)
         val newFrontier = Set.toSeq (Table.domain (
           Table.erase (visitingVertexs, Table.domain pathTable)
         ))
+        (*删除访问过的节点*)
       in
         BFS newPath newFrontier
       end
@@ -72,8 +75,10 @@ struct
     fun findList (v: vertex) : vertex seq seq =
       case Table.find A v of
          NONE => Seq.empty()
-       | SOME(points) => if Seq.length points = 0 then Seq.singleton (Seq.singleton v)
-                          else Seq.map (fn path => Seq.append(path, Seq.singleton v)) (
+       | SOME(points) => if Seq.length points = 0 then 
+                                  Seq.singleton (Seq.singleton v)
+                          else Seq.map (fn path => 
+                                          Seq.append(path, Seq.singleton v)) (
                             Seq.flatten (Seq.map (fn p => findList p)points)
                           )
   in

@@ -1,0 +1,4 @@
+CM.make "sources.cm";
+Tester.testChoose ();
+Tester.testKGramStats ();
+Tester.babbleFromFile "data/shakespeare.txt";

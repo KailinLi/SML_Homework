@@ -14,8 +14,6 @@ struct
 
   (* Remember, type 'a table = 'a Tree.bst *)
 
-  (* Remove this line before submitting! *)
-  exception NYI
 
   fun first (T : 'a table) : (key * 'a) option =
     case Tree.expose T of
@@ -33,6 +31,7 @@ struct
          NONE => SOME (key, value)
        | _ => last right
 
+(*比较简单清晰，直接找到前一个元素*)
   fun previous (T : 'a table) (k : key) : (key * 'a) option =
     last (#1 (Tree.splitAt (T, k)))
 
@@ -46,6 +45,16 @@ struct
     Tree.splitAt (T, k)
 
   fun getRange (T : 'a table) (low : key, high : key) : 'a table =
-    #1 (Tree.splitAt (#3 (Tree.splitAt (T, low)), high))
+    (*#1 (Tree.splitAt (#3 (Tree.splitAt (T, low)), high)) 这样写，没有考虑开闭区间的问题*)
+    let
+      val firstSplit = case Tree.splitAt(T, low) of
+       (_, SOME value, R) => join(singleton(low, value), R)
+     | (_, NONE, R) => R 
+      val secondSplit = case Tree.splitAt(firstSplit, high) of
+         (L, SOME value, _) => join(L, singleton(high, value))
+       | (L, NONE, _) => L
+    in
+      secondSplit
+    end
 
 end

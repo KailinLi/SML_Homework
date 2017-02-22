@@ -10,16 +10,19 @@ struct
 
   exception NoData
 
-  (* Remove this line when you're done. *)
-  exception NotYetImplemented
+
 
   fun randomSentence (stats : KS.kgramstats) (n : int) (seed : R.rand) =
     let
       val maxK = Stats.maxK stats
-      val randomList = Rand.randomRealSeq seed NONE n 
-      fun addMore (sentance, newRandom) = 
+      val randomList = Rand.randomRealSeq seed NONE n
+      (*使用rand的数组，产生循环*)
+      fun addMore (sentance, newRandom) =
         let
-          val search = Stats.lookupExts stats ((drop (sentance, Int.max (0, (length sentance) - maxK) )))
+        (*选取能取到的最长串*)
+          val search = Stats.lookupExts stats (
+              (drop (sentance, Int.max (0, (length sentance) - maxK) ))
+            )
         in
           append(sentance, singleton(Util.choose search newRandom))
         end
@@ -41,7 +44,10 @@ struct
           randomSentence stats rLenght rSeed
         end
     in
-      String.concatWith " " (toList (map (fn new => getSentence new) (tabulate (fn i => i) n)))
+    (*map可以并行*)
+      String.concatWith " " (toList 
+        (map (fn new => getSentence new) (tabulate (fn i => i) n))
+      )
     end
 
 end

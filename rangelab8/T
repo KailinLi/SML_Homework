@@ -1,0 +1,17 @@
+CM.make "sources.cm";
+print "testFirst\n";
+Tester.testFirst ();
+print "testLast\n";
+Tester.testLast ();
+print "testPrev\n";
+Tester.testPrev ();
+print "testNext\n";
+Tester.testNext ();
+print "testJoin\n";
+Tester.testJoin ();
+print "testSplit\n";
+Tester.testSplit ();
+print "testRange\n";
+Tester.testRange ();
+print "testCount\n";
+Tester.testCount ();

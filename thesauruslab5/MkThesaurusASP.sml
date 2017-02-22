@@ -4,13 +4,7 @@ struct
   structure Seq = ASP.Seq
   open Seq
 
-  (* Remove the following two lines when you're done! *)
-  exception NYI
-  type nyi = unit
-
-  (* You must define the following type and
-   * explain your decision here with a comment.
-   *)
+  (*和前面的题目类比，numWord就是节点个数，synonyms就是邻居，可以直接类比*)
   type thesaurus = ASP.graph
 
   (* Task 3.1 *)
@@ -30,7 +24,8 @@ struct
     ASP.outNeighbors T w 
 
   (* Task 3.3 *)
-  fun query (T : thesaurus) (w1 : string) (w2 : string) : string seq seq =
+  fun query (T : thesaurus) (w1 : string) (w2 : string) 
+                                      : string seq seq =
     let 
       val asp = ASP.makeASP T w1
       val report = ASP.report asp 

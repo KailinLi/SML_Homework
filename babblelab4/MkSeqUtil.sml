@@ -5,8 +5,7 @@ struct
 
   type 'a hist = ('a * int) seq
 
-  (* Remove this line when you're done. *)
-  exception NotYetImplemented
+
 
   fun tokens (cp : char -> bool) (str : string) : string seq =
     let
@@ -25,14 +24,18 @@ struct
     map (fn (a, c) => (a, length c))
         (collect cmp (map (fn a => (a, ())) s))
 
+(*choose 函数比较好写，只要能明白数据类型，用归一化条件即可*)
   fun choose (hist : 'a hist) (p : real) : 'a =
     if p > 1.0 orelse p < 0.0 then raise Range
     else let
         val id = #1 (nth hist 0)
         fun add ((_, num1), (title, num2)) = (title, num1 + num2)
+        (*对次数进行累加*)
         val tmp = scani add (id, 0) hist
         val atHist = Real.ceil (p * Real.fromInt (#2 (nth tmp (length tmp - 1))))
+        (*算对应位置向上取整*)
     in
-      #1 (reduce (fn ((title1, num1), (title2, num2)) => if num1 < atHist then (title2, num2) else (title1, num1)) (id, 0) tmp)
+      #1 (reduce (fn ((title1, num1), (title2, num2)) => 
+        if num1 < atHist then (title2, num2) else (title1, num1)) (id, 0) tmp)
     end
 end
