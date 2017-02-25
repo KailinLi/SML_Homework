@@ -24,35 +24,35 @@ struct
 (*改编自Tarjan的一个python算法，纯粹自己写，考虑细节实在是太多了*)
   fun findBridges (G : ugraph) : edges =
     let
-      fun DFS (u, v, cnt, low, pre, bridges) = 
+      fun DFS (u, v, cnt, low, dfn, bridges) = 
         let
           val newCnt = cnt + 1
-          val newPre = STSeq.update (v, cnt) pre
+          val newDfn = STSeq.update (v, cnt) dfn
           val newLow = STSeq.update (v, cnt) low
           val neighbors = nth G v 
-          fun loop ((C, L, P, B), w) = 
-            if (STSeq.nth P w = ~1) then let
-              val (nC, nL, nP, nB) = DFS (v, w, C, L, P, B)
+          fun loop ((C, L, D, B), w) = 
+            if (STSeq.nth D w = ~1) then let
+              val (nC, nL, nD, nB) = DFS (v, w, C, L, D, B)
               val getL = STSeq.update (v, Int.min(STSeq.nth nL v, STSeq.nth nL w)) nL
-              val getB = if (STSeq.nth getL w = STSeq.nth nP w) then append (nB, singleton(v, w)) else nB
+              val getB = if (STSeq.nth getL w = STSeq.nth nD w) then append (nB, singleton(v, w)) else nB
             in
-              (nC, getL, nP, getB)
+              (nC, getL, nD, getB)
             end
             else if (w <> u) then let
-              val getL = STSeq.update (v, Int.min(STSeq.nth L v, STSeq.nth P w)) L
+              val getL = STSeq.update (v, Int.min(STSeq.nth L v, STSeq.nth D w)) L
             in
-              (C, getL, P, B)
+              (C, getL, D, B)
             end
-            else (C, L, P, B)
+            else (C, L, D, B)
         in
-          iter loop (newCnt, newLow, newPre, bridges) (nth G v)
+          iter loop (newCnt, newLow, newDfn, bridges) (nth G v)
         end
-      fun API ((c, l, p, b), n) = DFS (n, n, c, l, p, b)
+      fun API ((c, l, d, b), n) = DFS (n, n, c, l, d, b)
       val initL = STSeq.fromSeq (tabulate (fn _ => ~1) (length G))
-      val initP = STSeq.fromSeq (tabulate (fn _ => ~1) (length G))
+      val initD = STSeq.fromSeq (tabulate (fn _ => ~1) (length G))
       val allNode = tabulate (fn i => i) (length G)
     in
-      #4 (iter API (0, initL, initP, empty()) allNode)
+      #4 (iter API (0, initL, initD, empty()) allNode)
     end
 
 end

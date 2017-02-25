@@ -23,7 +23,7 @@ struct
           val minE = filter (fn (_, (v, _)) => v >= 0) (enum (inject Es (tabulate (fn _ => (~1, (~1, ~1, ~1))) n)))
           val contract = filter ifContract minE
           val recover = map (fn (u, (v, _)) => (u, v)) contract
-          val P = inject recover Vs 
+          val P = inject recover Vs
           val newT = append ((map (fn (_, (_, point)) => point) contract), T)
           val newE = map (fn (u, (v, point)) => ((nth P u), (nth P v, point))) Es 
           val updata = filter (fn (u, (v, _)) => u <> v) newE

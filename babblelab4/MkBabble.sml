@@ -45,7 +45,7 @@ struct
         end
     in
     (*map可以并行*)
-      String.concatWith " " (toList 
+      String.concatWith "\n" (toList 
         (map (fn new => getSentence new) (tabulate (fn i => i) n))
       )
     end

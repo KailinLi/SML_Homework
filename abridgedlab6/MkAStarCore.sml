@@ -28,25 +28,27 @@ struct
             case Table.find G v
               of NONE => Table.empty ()
                | SOME nbr => nbr
-        fun myDijkstra' D Q =
+        fun Dijkstra D Q =
             case PQ.deleteMin Q
               of (NONE, _) => D
                | (SOME (d, v), Q') =>
                  case Table.find D v
-                   of SOME _ => myDijkstra' D Q'
+                   of SOME _ => Dijkstra D Q'
                     | NONE =>
                       let
                         val insert = Table.insert (fn (x, _) => x)
                         val D' = insert (v, d - (h v)) D
-                        fun relax (q, (u, w)) = PQ.insert (d+w - (h v) + (h u), u) q
+                        fun relax (q, (u, w)) = PQ.insert (d + w - (h v) + (h u), u) q
                         val Q'' = Table.iter relax Q' (N v)
-                      in if (Set.find T v) then D' else myDijkstra' D' Q''
+                      in if (Set.find T v) then D' else Dijkstra D' Q''
                       end
         val init = PQ.fromList (Seq.toList (Seq.map (fn p => ((h p), p)) (Set.toSeq S)))
-        val answer = myDijkstra' (Table.empty ()) init
+        val answer = Dijkstra (Table.empty ()) init
         val final = Table.toSeq (Table.extract (answer, T))
+        (*仅仅用来调整函数类型，适应Dijkstra*)
       in
         if (Seq.length final = 0) then NONE else SOME (Seq.nth final 0)
+        (*第一个是最小的*)
       end
 
 end
