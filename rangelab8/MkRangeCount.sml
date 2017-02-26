@@ -13,12 +13,12 @@ struct
 
 
   (* Define this yourself *)
-  type countTable = point table table
+  type countTable = int table table
 
   fun makeCountTable (S : point seq) : countTable =
     let
       val sortX = Seq.sort (fn (x1, x2) => compareKey(#1 x1, #1 x2)) S
-      val makeKey = Seq.map (fn point => (#2 point, point)) S
+      val makeKey = Seq.map (fn point => (#2 point, 0)) S
       val insertion = fn (first, next) => OrdTable.insert (fn (_, a) => a) next first
       (*仅仅用来处理重复元素，因为x y都是唯一的*)
       val getTable = Seq.iterh (insertion) (empty()) makeKey

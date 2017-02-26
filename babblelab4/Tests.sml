@@ -7,8 +7,8 @@ struct
   val testsChoose : (((string * int) list) * real) list  = [
     ([("test", 10)], 0.5),
     ([("test", 2), ("awesome", 2)], 0.5),
-    ([("yay", 1), ("woah", 2), ("oh", 3), ("yup", 4)], 0.47), 
-    ([("yay", 1), ("woah", 10), ("oh", 3), ("yup", 4)], 0.4)
+    ([("stay", 1),("single", 99999)], 0.0), 
+    ([("stay", 1),("simple", 99999)], 1.0)
   ]
 
   (* You must add test kgrams for the corpus in corpus.txt as part of task 5.5
